@@ -1,0 +1,7 @@
+# Directories
+.idea/
+target/
+
+# Files
+src/main/resources/application.yml
+BP-Authentication.iml
