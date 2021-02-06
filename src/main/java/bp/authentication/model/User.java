@@ -1,6 +1,11 @@
 package bp.authentication.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Embedded;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.lang.NonNull;
+
+import static org.springframework.data.relational.core.mapping.Embedded.OnEmpty.USE_EMPTY;
 
 /**
  * User class
@@ -9,23 +14,26 @@ import org.springframework.lang.NonNull;
  * @version 1.0.0
  * @since   2021-02-04
  */
+@Table(value = "users")
 public final class User {
     /**
      * Id
      */
-    @NonNull
-    private final UserId id;
+    @Id
+    private final Long id;
 
     /**
      * Username
      */
     @NonNull
+    @Embedded(onEmpty = USE_EMPTY)
     private final UserUsername username;
 
     /**
      * Password
      */
     @NonNull
+    @Embedded(onEmpty = USE_EMPTY)
     private final UserPassword password;
 
     /**
@@ -35,14 +43,14 @@ public final class User {
      * @param username a user username
      * @param password a user password
      */
-    public User(@NonNull UserId id, @NonNull UserUsername username, @NonNull UserPassword password) {
+    public User(@NonNull Long id, @NonNull UserUsername username, @NonNull UserPassword password) {
         this.id = id;
         this.username = username;
         this.password = password;
     }
 
     @NonNull
-    public UserId getId() {
+    public Long getId() {
         return id;
     }
 

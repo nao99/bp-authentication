@@ -1,5 +1,8 @@
 package bp.authentication;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 /**
  * Application class
  *
@@ -7,5 +10,14 @@ package bp.authentication;
  * @version 1.0.0
  * @since   2021-02-04
  */
+@SpringBootApplication
 public class Application {
+    /**
+     * The application entry point
+     *
+     * @param args application arguments
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 }
