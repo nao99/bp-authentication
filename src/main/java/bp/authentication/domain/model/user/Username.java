@@ -1,15 +1,15 @@
-package bp.authentication.model;
+package bp.authentication.domain.model.user;
 
 import org.springframework.lang.NonNull;
 
 /**
- * UserUsername class
+ * Username class
  *
  * @author  Nikolai Osipov <nao99.dev@gmail.com>
  * @version 1.0.0
  * @since   2021-02-04
  */
-public final class UserUsername {
+public final class Username implements Identity {
     /**
      * Username
      */
@@ -17,16 +17,16 @@ public final class UserUsername {
     private final String username;
 
     /**
-     * UserUsername constructor
+     * Username constructor
      *
-     * @param username a user username
+     * @param username a username
      */
-    public UserUsername(@NonNull String username) {
+    public Username(@NonNull String username) {
         this.username = username;
     }
 
     @NonNull
-    public String getUsername() {
+    public String username() {
         return username;
     }
 
@@ -35,12 +35,13 @@ public final class UserUsername {
      */
     @Override
     public boolean equals(@NonNull Object other) {
-        if (!other.getClass().isAssignableFrom(UserUsername.class)) {
+        if (!other.getClass().isAssignableFrom(Username.class)) {
             return false;
         }
 
-        UserUsername userUsername = (UserUsername) other;
-        return userUsername.username.equals(username);
+        Username otherUsername = (Username) other;
+
+        return otherUsername.username.equals(username);
     }
 
     /**
@@ -49,5 +50,14 @@ public final class UserUsername {
     @Override
     public int hashCode() {
         return 17 + 31 * 17 + username.hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @NonNull
+    @Override
+    public String toString() {
+        return username;
     }
 }

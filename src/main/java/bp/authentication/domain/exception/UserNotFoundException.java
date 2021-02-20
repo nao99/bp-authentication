@@ -1,4 +1,4 @@
-package bp.authentication.exception;
+package bp.authentication.domain.exception;
 
 import org.springframework.lang.NonNull;
 

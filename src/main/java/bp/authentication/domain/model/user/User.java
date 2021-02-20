@@ -1,11 +1,10 @@
-package bp.authentication.model;
+package bp.authentication.domain.model.user;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.lang.NonNull;
 
-import static org.springframework.data.relational.core.mapping.Embedded.OnEmpty.USE_EMPTY;
+import java.util.Set;
 
 /**
  * User class
@@ -15,53 +14,88 @@ import static org.springframework.data.relational.core.mapping.Embedded.OnEmpty.
  * @since   2021-02-04
  */
 @Table(value = "users")
-public final class User {
+public class User {
     /**
      * Id
      */
-    @Id
-    private final Long id;
+    @org.springframework.data.annotation.Id
+    @NonNull
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    private final Id id;
 
     /**
      * Username
      */
     @NonNull
-    @Embedded(onEmpty = USE_EMPTY)
-    private final UserUsername username;
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    private final Username username;
+
+    /**
+     * Email
+     */
+    @NonNull
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    private final Email email;
 
     /**
      * Password
      */
     @NonNull
-    @Embedded(onEmpty = USE_EMPTY)
-    private final UserPassword password;
+    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    private final Password password;
+
+    /**
+     * Roles
+     */
+    @NonNull
+    private final Set<Role> roles;
 
     /**
      * User constructor
      *
      * @param id       a user id
      * @param username a user username
+     * @param email    a user email
      * @param password a user password
+     * @param roles    user roles
      */
-    public User(@NonNull Long id, @NonNull UserUsername username, @NonNull UserPassword password) {
+    public User(
+        @NonNull Id id,
+        @NonNull Username username,
+        @NonNull Email email,
+        @NonNull Password password,
+        @NonNull Set<Role> roles
+    ) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.password = password;
+        this.roles = roles;
     }
 
     @NonNull
-    public Long getId() {
+    public Id getId() {
         return id;
     }
 
     @NonNull
-    public UserUsername getUsername() {
+    public Username getUsername() {
         return username;
     }
 
     @NonNull
-    public UserPassword getPassword() {
+    public Email getEmail() {
+        return email;
+    }
+
+    @NonNull
+    public Password getPassword() {
         return password;
+    }
+
+    @NonNull
+    public Set<Role> getRoles() {
+        return roles;
     }
 
     /**
@@ -73,8 +107,9 @@ public final class User {
             return false;
         }
 
-        User user = (User) other;
-        return user.id.equals(id);
+        User otherUser = (User) other;
+
+        return otherUser.username.equals(username);
     }
 
     /**

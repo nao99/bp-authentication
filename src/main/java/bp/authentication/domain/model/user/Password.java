@@ -1,15 +1,15 @@
-package bp.authentication.model;
+package bp.authentication.domain.model.user;
 
 import org.springframework.lang.NonNull;
 
 /**
- * UserPassword class
+ * Password class
  *
  * @author  Nikolai Osipov <nao99.dev@gmail.com>
  * @version 1.0.0
  * @since   2021-02-04
  */
-public final class UserPassword {
+public final class Password {
     /**
      * Password
      */
@@ -17,16 +17,16 @@ public final class UserPassword {
     private final String password;
 
     /**
-     * UserPassword constructor
+     * Password constructor
      *
-     * @param password a user password
+     * @param password a password
      */
-    public UserPassword(@NonNull String password) {
+    public Password(@NonNull String password) {
         this.password = password;
     }
 
     @NonNull
-    public String getPassword() {
+    public String password() {
         return password;
     }
 
@@ -35,12 +35,13 @@ public final class UserPassword {
      */
     @Override
     public boolean equals(@NonNull Object other) {
-        if (!other.getClass().isAssignableFrom(UserPassword.class)) {
+        if (!other.getClass().isAssignableFrom(Password.class)) {
             return false;
         }
 
-        UserPassword userPassword = (UserPassword) other;
-        return userPassword.password.equals(password);
+        Password otherPassword = (Password) other;
+
+        return otherPassword.password.equals(password);
     }
 
     /**
