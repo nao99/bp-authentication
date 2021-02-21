@@ -10,7 +10,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -50,7 +49,7 @@ public class GetUserServiceImplTest {
     public void getUserByUsername() throws Exception {
         // given
         Username username = new Username("username");
-        User user = new User(new Id(1L), username, new Email("up@a.com"), new Password("password"), Set.of());
+        User user = new User(username, new Email("up@a.com"), new Password("password"));
 
         // when
         when(repositoryMock.findByUsername(username))
@@ -69,7 +68,7 @@ public class GetUserServiceImplTest {
     public void getUserByEmail() throws Exception {
         // given
         Email email = new Email("up@a.com");
-        User user = new User(new Id(1L), new Username("username"), email, new Password("password"), Set.of());
+        User user = new User(new Username("username"), email, new Password("password"));
 
         // when
         when(repositoryMock.findByEmail(email))

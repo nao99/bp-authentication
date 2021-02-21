@@ -4,8 +4,6 @@ import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.lang.NonNull;
 
-import java.util.Set;
-
 /**
  * User class
  *
@@ -15,14 +13,6 @@ import java.util.Set;
  */
 @Table(value = "users")
 public class User {
-    /**
-     * Id
-     */
-    @org.springframework.data.annotation.Id
-    @NonNull
-    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    private final Id id;
-
     /**
      * Username
      */
@@ -45,37 +35,16 @@ public class User {
     private final Password password;
 
     /**
-     * Roles
-     */
-    @NonNull
-    private final Set<Role> roles;
-
-    /**
      * User constructor
      *
-     * @param id       a user id
      * @param username a user username
      * @param email    a user email
      * @param password a user password
-     * @param roles    user roles
      */
-    public User(
-        @NonNull Id id,
-        @NonNull Username username,
-        @NonNull Email email,
-        @NonNull Password password,
-        @NonNull Set<Role> roles
-    ) {
-        this.id = id;
+    public User(@NonNull Username username, @NonNull Email email, @NonNull Password password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.roles = roles;
-    }
-
-    @NonNull
-    public Id getId() {
-        return id;
     }
 
     @NonNull
@@ -91,11 +60,6 @@ public class User {
     @NonNull
     public Password getPassword() {
         return password;
-    }
-
-    @NonNull
-    public Set<Role> getRoles() {
-        return roles;
     }
 
     /**
@@ -119,8 +83,8 @@ public class User {
     public int hashCode() {
         int hash = 17;
 
-        hash = 31 * hash + id.hashCode();
         hash = 31 * hash + username.hashCode();
+        hash = 31 * hash + email.hashCode();
         hash = 31 * hash + password.hashCode();
 
         return hash;

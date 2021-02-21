@@ -1,7 +1,6 @@
 package bp.authentication.domain.repository;
 
 import bp.authentication.domain.model.user.Email;
-import bp.authentication.domain.model.user.Id;
 import bp.authentication.domain.model.user.User;
 import bp.authentication.domain.model.user.Username;
 import org.springframework.data.repository.Repository;
@@ -16,16 +15,7 @@ import java.util.Optional;
  * @version 1.0.0
  * @since   2021-02-04
  */
-public interface UserRepository extends Repository<User, Id> {
-    /**
-     * Finds a {@link User} by id
-     *
-     * @param id a user id
-     * @return optional of a user
-     */
-    @NonNull
-    Optional<User> findById(@NonNull Id id);
-
+public interface UserRepository extends Repository<User, Long> {
     /**
      * Finds a {@link User} by username
      *
