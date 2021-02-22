@@ -1,7 +1,5 @@
 package bp.authentication.domain.model.user;
 
-import org.springframework.lang.NonNull;
-
 /**
  * Username class
  *
@@ -9,23 +7,47 @@ import org.springframework.lang.NonNull;
  * @version 1.0.0
  * @since   2021-02-04
  */
-public final class Username implements Identity {
+public final class Username {
+    public final static int USERNAME_LENGTH_MIN = 2;
+    public final static int USERNAME_LENGTH_MAX = 32;
+
+    private final static String USERNAME_REGEX = "[a-z_0-9]+";
+
     /**
      * Username
      */
-    @NonNull
     private final String username;
 
     /**
      * Username constructor
      *
      * @param username a username
+     * @throws IllegalArgumentException if username is nullable, invalid, less or greater in length than limits
      */
-    public Username(@NonNull String username) {
+    public Username(String username) {
+        if (null == username) {
+            throw new IllegalArgumentException("Username cannot be nullable");
+        }
+
+        if (USERNAME_LENGTH_MIN > username.length()) {
+            String errorMessage = String.format("Username length cannot be less than %d symbols", USERNAME_LENGTH_MIN);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        if (USERNAME_LENGTH_MAX < username.length()) {
+            String errorMessagePattern = "Username length cannot be greater than %d symbols";
+            String errorMessage = String.format(errorMessagePattern, USERNAME_LENGTH_MAX);
+
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        if (!username.matches(USERNAME_REGEX)) {
+            throw new IllegalArgumentException("Username is not valid");
+        }
+
         this.username = username;
     }
 
-    @NonNull
     public String username() {
         return username;
     }
@@ -34,7 +56,7 @@ public final class Username implements Identity {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(@NonNull Object other) {
+    public boolean equals(Object other) {
         if (!other.getClass().isAssignableFrom(Username.class)) {
             return false;
         }
@@ -55,7 +77,6 @@ public final class Username implements Identity {
     /**
      * {@inheritDoc}
      */
-    @NonNull
     @Override
     public String toString() {
         return username;

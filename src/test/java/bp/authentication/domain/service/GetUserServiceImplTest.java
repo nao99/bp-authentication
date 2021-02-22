@@ -43,13 +43,15 @@ public class GetUserServiceImplTest {
     }
 
     /**
-     * Test for {@link GetUserServiceImpl#getUserBy(Identity)}
+     * Test for {@link GetUserServiceImpl#getUserBy(Username)}
      */
     @Test
     public void getUserByUsername() throws Exception {
         // given
         Username username = new Username("username");
-        User user = new User(username, new Email("up@a.com"), new Password("password"));
+        SecuredPassword password = new SecuredPassword("$2a$10$pm9iVvHtOICV.Qc/MGBr9exXG4zIgSZCQ2wMQuUysqisWt4hS1L2G");
+
+        User user = new User(1L, username, new Email("up@a.com"), password);
 
         // when
         when(repositoryMock.findByUsername(username))
@@ -62,13 +64,15 @@ public class GetUserServiceImplTest {
     }
 
     /**
-     * Test for {@link GetUserServiceImpl#getUserBy(Identity)}
+     * Test for {@link GetUserServiceImpl#getUserBy(Email)}
      */
     @Test
     public void getUserByEmail() throws Exception {
         // given
         Email email = new Email("up@a.com");
-        User user = new User(new Username("username"), email, new Password("password"));
+        SecuredPassword password = new SecuredPassword("$2a$10$pm9iVvHtOICV.Qc/MGBr9exXG4zIgSZCQ2wMQuUysqisWt4hS1L2G");
+
+        User user = new User(1L, new Username("username"), email, password);
 
         // when
         when(repositoryMock.findByEmail(email))
@@ -81,7 +85,7 @@ public class GetUserServiceImplTest {
     }
 
     /**
-     * Test for {@link GetUserServiceImpl#getUserBy(Identity)}
+     * Test for {@link GetUserServiceImpl#getUserBy(Username)}
      */
     @Test
     public void getNonExistedUserByUsername() throws Exception {
@@ -96,7 +100,7 @@ public class GetUserServiceImplTest {
     }
 
     /**
-     * Test for {@link GetUserServiceImpl#getUserBy(Identity)}
+     * Test for {@link GetUserServiceImpl#getUserBy(Email)}
      */
     @Test
     public void getNonExistedUserByEmail() throws Exception {

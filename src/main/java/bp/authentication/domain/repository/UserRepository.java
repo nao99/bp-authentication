@@ -4,7 +4,6 @@ import bp.authentication.domain.model.user.Email;
 import bp.authentication.domain.model.user.User;
 import bp.authentication.domain.model.user.Username;
 import org.springframework.data.repository.Repository;
-import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
@@ -22,8 +21,7 @@ public interface UserRepository extends Repository<User, Long> {
      * @param username a user username
      * @return optional of a user
      */
-    @NonNull
-    Optional<User> findByUsername(@NonNull Username username);
+    Optional<User> findByUsername(Username username);
 
     /**
      * Finds a {@link User} by email
@@ -31,6 +29,5 @@ public interface UserRepository extends Repository<User, Long> {
      * @param email a user email
      * @return optional of a user
      */
-    @NonNull
-    Optional<User> findByEmail(@NonNull Email email);
+    Optional<User> findByEmail(Email email);
 }

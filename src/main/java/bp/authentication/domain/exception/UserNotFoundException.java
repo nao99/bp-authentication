@@ -1,7 +1,5 @@
 package bp.authentication.domain.exception;
 
-import org.springframework.lang.NonNull;
-
 /**
  * UserNotFoundException class
  *
@@ -22,7 +20,7 @@ public class UserNotFoundException extends Exception {
      *
      * @param message an exception message
      */
-    public UserNotFoundException(@NonNull String message) {
+    public UserNotFoundException(String message) {
         super(message);
     }
 
@@ -32,7 +30,7 @@ public class UserNotFoundException extends Exception {
      * @param message  an exception message
      * @param previous a previous exception
      */
-    public UserNotFoundException(@NonNull String message, @NonNull Throwable previous) {
+    public UserNotFoundException(String message, Throwable previous) {
         super(message, previous);
     }
 }

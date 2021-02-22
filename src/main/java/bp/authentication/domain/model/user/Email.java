@@ -1,7 +1,5 @@
 package bp.authentication.domain.model.user;
 
-import org.springframework.lang.NonNull;
-
 /**
  * Email class
  *
@@ -9,23 +7,45 @@ import org.springframework.lang.NonNull;
  * @version 1.0.0
  * @since   2021-02-20
  */
-public final class Email implements Identity {
+public final class Email {
+    public final static int EMAIL_LENGTH_MIN = 7;
+    public final static int EMAIL_LENGTH_MAX = 48;
+
+    private final static String EMAIL_REGEX = ".+@.+\\..+";
+
     /**
      * Email
      */
-    @NonNull
     private final String email;
 
     /**
      * Email constructor
      *
      * @param email an email
+     * @throws IllegalArgumentException if email is nullable, invalid, less or greater in length than limits
      */
-    public Email(@NonNull String email) {
+    public Email(String email) {
+        if (null == email) {
+            throw new IllegalArgumentException("Email cannot be nullable");
+        }
+
+        if (EMAIL_LENGTH_MIN > email.length()) {
+            String errorMessage = String.format("Email length cannot be less than %d symbols", EMAIL_LENGTH_MIN);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        if (EMAIL_LENGTH_MAX < email.length()) {
+            String errorMessage = String.format("Email length cannot be greater than %d symbols", EMAIL_LENGTH_MAX);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        if (!email.matches(EMAIL_REGEX)) {
+            throw new IllegalArgumentException("Email is not valid");
+        }
+
         this.email = email;
     }
 
-    @NonNull
     public String email() {
         return email;
     }
@@ -34,7 +54,7 @@ public final class Email implements Identity {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(@NonNull Object other) {
+    public boolean equals(Object other) {
         if (!other.getClass().isAssignableFrom(Email.class)) {
             return false;
         }
@@ -55,7 +75,6 @@ public final class Email implements Identity {
     /**
      * {@inheritDoc}
      */
-    @NonNull
     @Override
     public String toString() {
         return email;

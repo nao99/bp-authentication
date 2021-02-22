@@ -1,8 +1,8 @@
 package bp.authentication.domain.model.user;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.data.relational.core.mapping.Table;
-import org.springframework.lang.NonNull;
 
 /**
  * User class
@@ -14,51 +14,53 @@ import org.springframework.lang.NonNull;
 @Table(value = "users")
 public class User {
     /**
+     * Id
+     */
+    @Id
+    private final Long id;
+
+    /**
      * Username
      */
-    @NonNull
-    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    @Embedded.Nullable
     private final Username username;
 
     /**
      * Email
      */
-    @NonNull
-    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
+    @Embedded.Nullable
     private final Email email;
 
     /**
      * Password
      */
-    @NonNull
-    @Embedded(onEmpty = Embedded.OnEmpty.USE_NULL)
-    private final Password password;
+    @Embedded.Nullable
+    private final SecuredPassword password;
 
     /**
      * User constructor
      *
-     * @param username a user username
-     * @param email    a user email
-     * @param password a user password
+     * @param id       an id
+     * @param username a username
+     * @param email    an email
+     * @param password a password
      */
-    public User(@NonNull Username username, @NonNull Email email, @NonNull Password password) {
+    public User(Long id, Username username, Email email, SecuredPassword password) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    @NonNull
     public Username getUsername() {
         return username;
     }
 
-    @NonNull
     public Email getEmail() {
         return email;
     }
 
-    @NonNull
-    public Password getPassword() {
+    public SecuredPassword getPassword() {
         return password;
     }
 
@@ -66,7 +68,7 @@ public class User {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(@NonNull Object other) {
+    public boolean equals(Object other) {
         if (!other.getClass().isAssignableFrom(User.class)) {
             return false;
         }
@@ -83,6 +85,7 @@ public class User {
     public int hashCode() {
         int hash = 17;
 
+        hash = 31 * hash + id.hashCode();
         hash = 31 * hash + username.hashCode();
         hash = 31 * hash + email.hashCode();
         hash = 31 * hash + password.hashCode();

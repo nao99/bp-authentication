@@ -2,12 +2,10 @@ package bp.authentication.domain.service;
 
 import bp.authentication.domain.exception.UserNotFoundException;
 import bp.authentication.domain.model.user.Email;
-import bp.authentication.domain.model.user.Identity;
 import bp.authentication.domain.model.user.User;
 import bp.authentication.domain.model.user.Username;
 import bp.authentication.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,7 +22,6 @@ public class GetUserServiceImpl implements GetUserService {
     /**
      * User repository
      */
-    @NonNull
     private final UserRepository repository;
 
     /**
@@ -33,23 +30,31 @@ public class GetUserServiceImpl implements GetUserService {
      * @param repository a user repository
      */
     @Autowired
-    public GetUserServiceImpl(@NonNull UserRepository repository) {
+    public GetUserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 
     /**
      * {@inheritDoc}
      */
-    @NonNull
     @Override
-    public User getUserBy(@NonNull Identity identity) throws UserNotFoundException {
-        boolean searchByUsername = identity instanceof Username;
-        Optional<User> user = searchByUsername
-            ? repository.findByUsername((Username) identity)
-            : repository.findByEmail((Email) identity);
-
+    public User getUserBy(Username username) throws UserNotFoundException {
+        Optional<User> user = repository.findByUsername(username);
         if (user.isEmpty()) {
-            throw new UserNotFoundException(String.format("User \"%s\" not found", identity));
+            throw new UserNotFoundException(String.format("User with \"%s\" username not found", username));
+        }
+
+        return user.get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User getUserBy(Email email) throws UserNotFoundException {
+        Optional<User> user = repository.findByEmail(email);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(String.format("User with \"%s\" email not found", email));
         }
 
         return user.get();

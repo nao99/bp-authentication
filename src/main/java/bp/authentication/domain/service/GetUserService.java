@@ -1,9 +1,9 @@
 package bp.authentication.domain.service;
 
 import bp.authentication.domain.exception.UserNotFoundException;
-import bp.authentication.domain.model.user.Identity;
+import bp.authentication.domain.model.user.Email;
 import bp.authentication.domain.model.user.User;
-import org.springframework.lang.NonNull;
+import bp.authentication.domain.model.user.Username;
 
 /**
  * GetUserService interface
@@ -14,13 +14,22 @@ import org.springframework.lang.NonNull;
  */
 public interface GetUserService {
     /**
-     * Gets a {@link User} by identity
+     * Gets a {@link User} by username
      *
-     * @param identity a user identity
+     * @param username a user username
      *
      * @return a user if exists
      * @throws UserNotFoundException if user doesn't exist
      */
-    @NonNull
-    User getUserBy(@NonNull Identity identity) throws UserNotFoundException;
+    User getUserBy(Username username) throws UserNotFoundException;
+
+    /**
+     * Gets a {@link User} by email
+     *
+     * @param email a user email
+     *
+     * @return a user if exists
+     * @throws UserNotFoundException if user doesn't exist
+     */
+    User getUserBy(Email email) throws UserNotFoundException;
 }

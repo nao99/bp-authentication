@@ -1,7 +1,5 @@
 package bp.authentication.domain.model.user;
 
-import org.springframework.lang.NonNull;
-
 /**
  * Password class
  *
@@ -10,22 +8,47 @@ import org.springframework.lang.NonNull;
  * @since   2021-02-04
  */
 public final class Password {
+    public final static int PASSWORD_LENGTH_MIN = 8;
+    public final static int PASSWORD_LENGTH_MAX = 32;
+
+    // at least one uppercase letter, one lowercase letter, one number and one special character
+    private final static String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+
     /**
      * Password
      */
-    @NonNull
     private final String password;
 
     /**
      * Password constructor
      *
      * @param password a password
+     * @throws IllegalArgumentException if password is nullable, invalid, less or greater in length than limits
      */
-    public Password(@NonNull String password) {
+    public Password(String password) {
+        if (null == password) {
+            throw new IllegalArgumentException("Password cannot be nullable");
+        }
+
+        if (PASSWORD_LENGTH_MIN > password.length()) {
+            String errorMessage = String.format("Password length cannot be less than %d symbols", PASSWORD_LENGTH_MIN);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        if (PASSWORD_LENGTH_MAX < password.length()) {
+            String errorMessagePattern = "Password length cannot be greater than %d symbols";
+            String errorMessage = String.format(errorMessagePattern, PASSWORD_LENGTH_MAX);
+
+            throw new IllegalArgumentException(errorMessage);
+        }
+
+        if (!password.matches(PASSWORD_REGEX)) {
+            throw new IllegalArgumentException("Password is not valid");
+        }
+
         this.password = password;
     }
 
-    @NonNull
     public String password() {
         return password;
     }
@@ -34,7 +57,7 @@ public final class Password {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(@NonNull Object other) {
+    public boolean equals(Object other) {
         if (!other.getClass().isAssignableFrom(Password.class)) {
             return false;
         }
@@ -50,5 +73,13 @@ public final class Password {
     @Override
     public int hashCode() {
         return 17 + 31 * 17 + password.hashCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return password;
     }
 }
