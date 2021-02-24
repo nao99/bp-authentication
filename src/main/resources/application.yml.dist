@@ -10,3 +10,20 @@ spring:
     url: 'jdbc:postgresql://127.0.0.1/app'
     username: 'dbuser'
     password: 'dbpassword'
+
+  redis:
+    database: 0
+    host: '127.0.0.1'
+    port: 6379
+    password: 'redis'
+    timeout: 60000
+
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+logging:
+  level:
+    bp:
+      authentication: 'info'
