@@ -1,7 +1,14 @@
-# Directories
-.idea/
-target/
+# Environment
+/src/main/resources/application.yml
+.env
+docker-compose.local.yml
 
-# Files
-src/main/resources/application.yml
+# Dev files
+.idea
+
+# Build files
+target
 BP-Authentication.iml
+
+# Docker files
+docker

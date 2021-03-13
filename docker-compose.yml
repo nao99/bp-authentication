@@ -1,0 +1,59 @@
+version: '3.4'
+
+# ---------------------------------------------------------
+# Network Configuration
+# ---------------------------------------------------------
+networks:
+  main:
+    ipam:
+      config:
+        - subnet: 172.21.1.0/24
+
+
+# ---------------------------------------------------------
+# Volumes Configuration
+# ---------------------------------------------------------
+volumes:
+  app:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${APP_PATH}
+      o: bind
+  esdata1:
+    driver: local
+  mongodata:
+    driver: local
+
+
+# *************************************************************
+# Services Configuration
+# *************************************************************
+services:
+  # ------------------------
+  # PostgreSQL database
+  # ------------------------
+  database:
+    image: postgres:12.2
+    restart: on-failure
+    networks:
+      - main
+    volumes:
+      - ${POSTGRESQL_DATA}:/var/lib/postgresql/data
+      - ${POSTGRESQL_DATA}/extensions.sh:/docker-entrypoint-initdb.d/extensions.sh
+    environment:
+      POSTGRES_DB: ${POSTGRESQL_DATABASE}
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/app/
+
+  # ------------------------
+  # Redis
+  # ------------------------
+  redis:
+    image: redis:6
+    restart: on-failure
+    networks:
+      - main
+    volumes:
+      - ${REDIS_DATA}:/data

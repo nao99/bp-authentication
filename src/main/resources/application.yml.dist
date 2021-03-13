@@ -1,6 +1,6 @@
 spring:
   application:
-    name: 'BP-Authentication'
+    name: 'Authentication'
 
   profiles:
     active: 'prod'
@@ -12,16 +12,26 @@ spring:
     password: 'dbpassword'
 
   redis:
-    database: 0
-    host: '127.0.0.1'
-    port: 6379
-    password: 'redis'
+    url: 'redis://redis:6379'
     timeout: 60000
 
-  data:
-    redis:
-      repositories:
-        enabled: false
+    data:
+      redis:
+        repositories:
+          enabled: false
+
+storage:
+  redis:
+    prefix: 'auth_token_'
+    ttl: '1d'
+
+security:
+  client:
+    cookies:
+      name: 'auth'
+      ttl: '1d'
+      secure: false
+      httpOnly: true
 
 logging:
   level:
